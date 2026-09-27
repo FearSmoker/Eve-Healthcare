@@ -1,0 +1,43 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: eve_healthcare_api
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      - ENVIRONMENT=production
+      - DEBUG=false
+      - DATABASE_URL=postgresql://eve_user:eve_password@postgres:5432/eve_healthcare_db
+      - SECRET_KEY=production-secret-eve-healthcare-jwt-token-key-change-in-prod
+      - ACCESS_TOKEN_EXPIRE_MINUTES=1440
+      - WEBHOOK_SECRET=eve_webhook_secret_key_change_me
+    depends_on:
+      postgres:
+        condition: service_healthy
+    command: >
+      sh -c "python -m app.db.seed &&
+             uvicorn app.main:app --host 0.0.0.0 --port 8000"
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: eve_healthcare_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: eve_user
+      POSTGRES_PASSWORD: eve_password
+      POSTGRES_DB: eve_healthcare_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U eve_user -d eve_healthcare_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:

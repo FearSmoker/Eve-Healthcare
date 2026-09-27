@@ -1,0 +1,64 @@
+# python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# virtual environments
+venv/
+env/
+ENV/
+.venv/
+
+# environment secrets
+.env
+.env.local
+
+# local database files
+*.db
+*.sqlite
+*.sqlite3
+*.db-journal
+*.db-wal
+*.db-shm
+
+# redis and celery runtime
+dump.rdb
+*.pid
+celerybeat-schedule
+celerybeat.pid
+
+# logs
+*.log
+
+# pytest and coverage
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml
+.tox/
+
+# os and editor
+.DS_Store
+.vscode/
+.idea/
+*.swp
+*.swo
